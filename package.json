@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/clockwerkz/Node-todo-api/issues"
   },
-  "homepage": "https://github.com/clockwerkz/Node-todo-api#readme"
+  "homepage": "https://github.com/clockwerkz/Node-todo-api#readme",
+  "dependencies": {
+    "mongodb": "^2.2.5"
+  }
 }
