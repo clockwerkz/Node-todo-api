@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/clockwerkz/Node-todo-api#readme",
   "dependencies": {
-    "mongodb": "^2.2.5"
+    "mongodb": "^2.2.5",
+    "mongoose": "^4.5.9"
   }
 }
