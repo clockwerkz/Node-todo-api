@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/clockwerkz/Node-todo-api#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "mongodb": "^2.2.5",
     "mongoose": "^4.5.9"
   }
