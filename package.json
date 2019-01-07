@@ -4,7 +4,8 @@
   "description": "Node api server for the Todo project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\""
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
     "mongoose": "^4.5.9"
   },
   "devDependencies": {
-    "expect": "^23.6.0",
+    "expect": "^1.20.2",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
     "supertest": "^3.3.0"
