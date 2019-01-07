@@ -11,27 +11,27 @@ beforeEach((done)=> {
 });
 
 describe('POST /todos', () => {
-    // it('should create a new todo', (done)=> {
-    //     const text = 'Test todo text';
+    it('should create a new todo', (done)=> {
+        const text = 'Test todo text';
 
-    // request(app)
-    //     .post('/todos')
-    //     .send({text})
-    //     .expect(200)
-    //     .expect((res) => {
-    //         expect(res.body.text).toBe(text);
-    //     })
-    //     .end((err, res)=>{
-    //         if (err) {
-    //            return done(err); 
-    //         }
-    //         Todo.find().then((todos) => {
-    //             expect(todos.length).toBe(1);
-    //             expect(todos[0].text).toBe(text);
-    //             done();
-    //         }).catch(err => console.log("Error:", err));
-    //     });
-    // });
+    request(app)
+        .post('/todos')
+        .send({text})
+        .expect(200)
+        .expect((res) => {
+            expect(res.body.text).toBe(text);
+        })
+        .end((err, res)=>{
+            if (err) {
+               return done(err); 
+            }
+            Todo.find().then((todos) => {
+                expect(todos.length).toBe(1);
+                expect(todos[0].text).toBe(text);
+                done();
+            }).catch(err => console.log("Error:", err));
+        });
+    });
 
     it('should not create Todo with invalid body date', (done)=> {
         request(app)
