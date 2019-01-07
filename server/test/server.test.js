@@ -29,7 +29,7 @@ describe('POST /todos', () => {
                 expect(todos.length).toBe(1);
                 expect(todos[0].text).toBe(text);
                 done();
-            }).catch(err => console.log("Error:", err));
+            }).catch(err => done(err));
         });
     });
 
@@ -46,7 +46,7 @@ describe('POST /todos', () => {
                     expect(todos.length).toBe(0);
                     done();
                 })
-                .catch(err => console.log("Error:", err));
+                .catch(err => done(err));
         });
     });      
 });
