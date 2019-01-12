@@ -60,7 +60,9 @@ describe('POST /todos', () => {
                 .catch(err => done(err));
         });
     }); 
+});
 
+describe('GET /todos', () => {
     it('should get all Todos', (done)=> {
         request(app)
         .get('/todos')
@@ -70,14 +72,32 @@ describe('POST /todos', () => {
         })
         .end(done);
     });  
+});
+
+describe('GET /todos:id', ()=> {
     
     it('should get the Todo with the matching id provided', (done) => {
         request(app)
         .get(`/todos/${todos[0]._id.toHexString()}`)
         .expect(200)
         .expect((res) => {
-            expect(res.body.todo._id).toEqual(todos[0]._id);
+            expect(res.body.todo.text).toEqual(todos[0].text);
         })
+        .end(done);
+    });
+
+    it('should return 404 if todo not found', (done) => {
+        const testID = new ObjectID();
+        request(app)
+        .get(`/todos/${testID.toHexString()}`)
+        .expect(404)
+        .end(done);
+    });
+
+    it('should return 404 if invalid ID is provided', (done) => {
+        request(app)
+        .get(`/todos/405dwsdew`)
+        .expect(404)
         .end(done);
     })
 });
