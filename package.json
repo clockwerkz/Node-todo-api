@@ -4,9 +4,13 @@
   "description": "Node api server for the Todo project",
   "main": "index.js",
   "scripts": {
+    "start" : "node server/server.js",
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
+  "engines": {
+    "node":"11.1.0"
+  }
   "repository": {
     "type": "git",
     "url": "git+https://github.com/clockwerkz/Node-todo-api.git"
