@@ -11,10 +11,17 @@ const userId = `5c31b76583763c941adf4abd`;
 // if (!ObjectID.isValid(id)) {
 //     console.log('ID not valid');
 // }
+const todo = new Todo({
+    text: "Go take a shower"
+});
 
-// Todo.find({
-//     _id: id
-// }).then((todos) => console.log('Todos', todos));
+todo.save()
+    .catch(err => {
+        console.log("Error", err);
+    });
+
+
+Todo.find({}).then((todos) => console.log('Todos', todos));
 
 
 // Todo.findOne({
@@ -35,17 +42,17 @@ const userId = `5c31b76583763c941adf4abd`;
 //user is found
 //all other errors
 
-if (ObjectID.isValid(userId)){
-    User.findById(userId)
-        .then(user => {
-            if (!user) {
-                return console.log('User ID not found');
-            }
-            console.log(JSON.stringify(user),undefined, 2);
-        })
-        .catch(err => console.log("Error", err));
-} else {
-    console.log("Object ID provided is not valid");
-}
+// if (ObjectID.isValid(userId)){
+//     User.findById(userId)
+//         .then(user => {
+//             if (!user) {
+//                 return console.log('User ID not found');
+//             }
+//             console.log(JSON.stringify(user),undefined, 2);
+//         })
+//         .catch(err => console.log("Error", err));
+// } else {
+//     console.log("Object ID provided is not valid");
+// }
 
 
