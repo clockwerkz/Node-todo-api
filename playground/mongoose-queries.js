@@ -12,7 +12,7 @@ const userId = `5c31b76583763c941adf4abd`;
 //     console.log('ID not valid');
 // }
 const todo = new Todo({
-    text: "Go take a shower"
+    text: "Adds a New Todo"
 });
 
 todo.save()
