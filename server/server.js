@@ -59,7 +59,7 @@ app.delete('/todos/:id', (req, res) => {
         .then(rtodo => {
             if (todo) {
                 res.status(200)
-                .send(todo);
+                .send({todo});
             } else {
                 res.status(404).send();       
             }
