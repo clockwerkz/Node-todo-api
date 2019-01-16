@@ -4,12 +4,12 @@
   "description": "Node api server for the Todo project",
   "main": "index.js",
   "scripts": {
-    "start" : "node server/server.js",
+    "start": "node server/server.js",
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
   "engines": {
-    "node":"11.1.0"
+    "node": "11.1.0"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "lodash": "^4.17.11",
     "mongodb": "^2.2.5",
     "mongoose": "^4.5.9"
   },

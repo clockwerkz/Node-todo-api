@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const {mongoose} = require('./db/mongoose.js');
 const { ObjectID } = require('mongodb');
 const {Todo} = require('./models/todo.js');
@@ -71,6 +72,33 @@ app.delete('/todos/:id', (req, res) => {
     // if doc, send 200
     // error - 400 with an empty body
 });
+
+app.patch('/todos/:id', (req, res) => {
+    const id = req.params.id;
+    let body = _.pick(req.body, ['text', 'completed']);
+
+    //Checks id to see if it's a valid ObjectID
+    if (!ObjectID.isValid(id))  {
+        res.status(404).send();
+    }
+
+    if (_.isBoolean(body.completed) && body.completed) {
+        body.completedAt = new Date().getTime();
+    } else {
+        body.completed = false;
+        body.completedAt = null;
+    }
+
+    Todo.findByIdAndUpdate(id, {$set: body}, {new: true})
+        .then(todo => {
+            if (!todo) {
+                return res.status(404).send();
+            }
+            res.send({todo});
+        })
+        .catch(err => console.log("Error:",err));
+
+})
 
 app.listen(port, ()=> {
     console.log(`Started on port ${port}`);
