@@ -74,7 +74,7 @@ describe('GET /todos', () => {
     });  
 });
 
-describe('GET /todos:id', ()=> {
+describe('GET /todos/:id', ()=> {
     
     it('should get the Todo with the matching id provided', (done) => {
         request(app)
@@ -102,7 +102,7 @@ describe('GET /todos:id', ()=> {
     })
 });
 
-describe('DELETE /todos:id', () => {
+describe('DELETE /todos/:id', () => {
     it('should delete a matching Todo with the matching id provided', (done) => {
         const hexID = todos[1]._id.toHexString();
         console.log(hexID);
@@ -138,4 +138,13 @@ describe('DELETE /todos:id', () => {
         .end(done);
     })
 
-})
+});
+
+describe('PATCH /todos/:id', () => {
+    it('should update an existing document with the matching id', done => {
+        const hexID = todos[1]._id.toHexString();
+        request(app)
+        .patch(`/todos/${hexID}`)
+        .send({ 'text':'' })
+    });
+});
