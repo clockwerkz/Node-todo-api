@@ -13,6 +13,11 @@ const todos = [{
 },{
     _id: new ObjectID(),
     text:'Second test todo'
+},{
+    _id: new ObjectID(),
+    text:'Third test todo',
+    completed: true,
+    completedAt: 666
 }]
 
 
@@ -56,7 +61,7 @@ describe('POST /todos', () => {
                     return done(err);
                 }
                 Todo.find().then(todos => {
-                    expect(todos.length).toBe(2);
+                    expect(todos.length).toBe(3);
                     done();
                 })
                 .catch(err => done(err));
@@ -70,7 +75,7 @@ describe('GET /todos', () => {
         .get('/todos')
         .expect(200)
         .expect((res)=> {
-            expect(res.body.todos.length).toBe(2);
+            expect(res.body.todos.length).toBe(3);
         })
         .end(done);
     });  
@@ -164,9 +169,9 @@ describe('PATCH /todos/:id', () => {
     });
 
     it('should clear completedAt when todo is not completed', (done)=> {
-        let hexID = todos[0]._id.toHexString();
+        let firstHexID = todos[0]._id.toHexString();
         request(app)
-        .patch(`/todos/${hexID}`)
+        .patch(`/todos/${firstHexID}`)
         .send({ completed:false })
         .expect(200)
         .expect(res => {
