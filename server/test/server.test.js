@@ -7,7 +7,9 @@ const { Todo } = require('./../models/todo');
 
 const todos = [{
     _id: new ObjectID(),
-    text:'First test todo'
+    text:'First test todo',
+    completed: true,
+    completedAt: 333
 },{
     _id: new ObjectID(),
     text:'Second test todo'
@@ -141,14 +143,17 @@ describe('DELETE /todos/:id', () => {
 });
 
 describe('PATCH /todos/:id', () => {
-    it('should update an existing document with the matching id', done => {
-        const hexID = todos[1]._id.toHexString();
+    it('should update an existing document and mark it as completed', done => {
+        let hexID = todos[1]._id.toHexString();
         const text = "This is a new text field";
         request(app)
         .patch(`/todos/${hexID}`)
-        .send({ text })
+        .send({ text, completed:true })
+        .expect(200)
         .expect(res => {
             expect(res.body.todo.text).toBe(text);
+            expect(res.body.todo.completed).toBe(true);
+            expect(res.body.todo.completedAt).toBeA('number');
         })
         .end((err, res) => {
             if (err) {
@@ -157,4 +162,23 @@ describe('PATCH /todos/:id', () => {
             done();
         });
     });
+
+    it('should clear completedAt when todo is not completed', (done)=> {
+        let hexID = todos[0]._id.toHexString();
+        request(app)
+        .patch(`/todos/${hexID}`)
+        .send({ completed:false })
+        .expect(200)
+        .expect(res => {
+            expect(res.body.todo.completed).toBe(false);
+            expect(res.body.todo.completedAt).toNotExist();
+        })
+        .end((err, res) => {
+            if (err) {
+                return done(err);
+            }
+            done();
+        });
+        
+    })
 });
