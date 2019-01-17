@@ -143,8 +143,18 @@ describe('DELETE /todos/:id', () => {
 describe('PATCH /todos/:id', () => {
     it('should update an existing document with the matching id', done => {
         const hexID = todos[1]._id.toHexString();
+        const text = "This is a new text field";
         request(app)
         .patch(`/todos/${hexID}`)
-        .send({ 'text':'' })
+        .send({ text })
+        .expect(res => {
+            expect(res.body.todo.text).toBe(text);
+        })
+        .end((err, res) => {
+            if (err) {
+                return done(err);
+            }
+            done();
+        });
     });
 });
