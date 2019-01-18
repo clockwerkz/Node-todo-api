@@ -1,3 +1,4 @@
+require('./config/config');
 const _ = require('lodash');
 const {mongoose} = require('./db/mongoose.js');
 const { ObjectID } = require('mongodb');
@@ -8,7 +9,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json()); //sets up bodyParser as middlewear
 
