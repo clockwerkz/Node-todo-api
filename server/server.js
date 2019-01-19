@@ -20,8 +20,8 @@ app.post('/todos', (req, res)=> {
 
     todo.save().then( doc => res.send(doc))
     .catch(err => {
-        res.status(400);
-        res.send(err);
+        res.status(400)
+        .send(err);
     });
 });
 
@@ -30,7 +30,7 @@ app.get('/todos', (req, res) => {
     .then(todos => res.send({ todos }))
     .catch(err => {
         res.status(400)
-        send(err);
+        .send(err);
     });
 });
 
@@ -100,6 +100,18 @@ app.patch('/todos/:id', (req, res) => {
         .catch(err => console.log("Error:",err));
 
 })
+
+/*** USERS ***/
+app.post('/users', (req, res)=> {
+    const body = _.pick(req.body, ['email','password']);
+    const user = new User(body);
+    user.save()
+        .then(doc => res.send(doc))
+        .catch(err => {
+            res.status(400)
+            .send(err);
+        });
+});
 
 app.listen(port, ()=> {
     console.log(`Started on port ${port}`);
