@@ -50,21 +50,22 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
-UserSchema.statics.loginCheck = function({email, password}) {
-    User.findOne({email}, (err, res) => {
-        if (err) {
-            return Promise.reject(err);
+UserSchema.statics.findByCredentials = function({email, password}) {
+    return this.findOne({email}).then((user) => {
+        if (!user) {
+            return Promise.reject();
         }
-        if (res) {
-            bcrypt.compare(password, res.password, (err, res)=> {
-                if(res) {
-                    console.log('Login Successful');
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(password, user.password, (err, res)=> {
+                if (res) {
+                    resolve('Login Successful');
                 } else {
-                    console.log('Email and/or Password not correct');
+                    reject('Username and/or password incorrect');
                 }
             });
-        }
-    })
+        });
+        
+    });
 }
 
 UserSchema.statics.findByToken = function(token) {

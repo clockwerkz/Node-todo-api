@@ -119,9 +119,15 @@ app.post('/users', (req, res)=> {
 
 app.post('/users/login', (req, res) => {
     const body = _.pick(req.body, ['email', 'password']);
-    User.loginCheck(body);
-    res.status(200)
-        .send();
+    User.findByCredentials(body).then(user => {
+        console.log(user);
+        res.send(user);
+    })
+    .catch(err => {
+        res.status(403)
+        .send(err);
+
+    });
 });
 
 app.get('/users/me', authenticate, (req,res) => {
