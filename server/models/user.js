@@ -50,6 +50,23 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
+UserSchema.statics.loginCheck = function({email, password}) {
+    User.findOne({email}, (err, res) => {
+        if (err) {
+            return Promise.reject(err);
+        }
+        if (res) {
+            bcrypt.compare(password, res.password, (err, res)=> {
+                if(res) {
+                    console.log('Login Successful');
+                } else {
+                    console.log('Email and/or Password not correct');
+                }
+            });
+        }
+    })
+}
+
 UserSchema.statics.findByToken = function(token) {
     const User = this;
     let decoded;
