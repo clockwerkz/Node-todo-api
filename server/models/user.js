@@ -50,7 +50,7 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
-UserSchema.statics.findByCredentials = function({email, password}) {
+UserSchema.statics.findByCredentials = function(email, password) {
     return this.findOne({email}).then((user) => {
         if (!user) {
             return Promise.reject();
@@ -58,7 +58,7 @@ UserSchema.statics.findByCredentials = function({email, password}) {
         return new Promise((resolve, reject) => {
             bcrypt.compare(password, user.password, (err, res)=> {
                 if (res) {
-                    resolve('Login Successful');
+                    resolve(user);
                 } else {
                     reject('Username and/or password incorrect');
                 }
