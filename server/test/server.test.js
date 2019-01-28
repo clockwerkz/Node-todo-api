@@ -210,16 +210,17 @@ describe('POST /users', () => {
         })
         .end(err => {
             if (err) {
-                done(err);
+                return done(err);
             }
             User.findOne({email:newvalidUser.email})
                 .then(user =>{
                     expect(user._id).toExist();
                     expect(user.password).toNotBe(newvalidUser.password);
-                })
-            done();
+                    done();
+                }).catch((err) => done(err));
         });
     });
+
 
     it('should return validation errors if request invalid', (done) => {
         const badPassword = '123';
@@ -276,6 +277,25 @@ describe('POST /users/login', ()=> {
     });
 
     it('should reject invalid login', (done)=> {
+        request(app)
+        .post('/users/login')
+        .send({
+            email:users[1].email,
+            password: '123456770'
+        })
+        .expect(400)
+        .expect(res => {
+            expect(res.headers['x-auth']).toNotExist();
+        })
+        .end((err,res) => {
+            if (err) {
+                return done(err);
+            }
 
+            User.findById(users[1]._id).then((user) => {
+                expect(user.tokens.length).toBe(0);
+                done();
+            }).catch(err => done(err));
+        });
     });
 });
