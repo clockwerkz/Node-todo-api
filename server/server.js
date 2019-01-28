@@ -14,9 +14,10 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json()); //sets up bodyParser as middlewear
 
-app.post('/todos', (req, res)=> {
+app.post('/todos', authenticate, (req, res)=> {
     const todo = new Todo({
-        text: req.body.text
+        text: req.body.text,
+        _creator: req.user._id
     });
 
     todo.save().then( doc => res.send(doc))
@@ -26,8 +27,10 @@ app.post('/todos', (req, res)=> {
     });
 });
 
-app.get('/todos', (req, res) => {
-    Todo.find()
+app.get('/todos', authenticate, (req, res) => {
+    Todo.find({
+        _creator: req.user._id
+    })
     .then(todos => res.send({ todos }))
     .catch(err => {
         res.status(400)
