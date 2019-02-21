@@ -144,18 +144,15 @@ app.post('/users', (req, res)=> {
         });
 });
 
-app.post('/users/login', (req, res) => {
+app.post('/users/login', async (req, res) => {
     const body = _.pick(req.body, ['email', 'password']);
-    User.findByCredentials(body.email, body.password).then(user => {
-        return user.generateAuthToken().then((token) => {
-            return res.header('x-auth', token).send(user);
-         });
-    })
-    .catch(err => {
-        res.status(400)
-        .send();
-
-    });
+    try {
+    const user = await User.findByCredentials(body.email, body.password);
+    const token = await user.generateAuthToken();
+    return res.header('x-auth', token).send(user);
+    } catch (err) {
+        res.status(400).send(); 
+    }
 });
 
 app.get('/users/me', authenticate, (req,res) => {
@@ -166,13 +163,13 @@ app.listen(port, ()=> {
     console.log(`Started on port ${port}`);
 });
 
-app.delete('/users/logout', authenticate, (req, res) => {
-   req.user.removeToken(req.token).then(() => {
+app.delete('/users/logout', authenticate, async (req, res) => {
+    try {
+    await req.user.removeToken(req.token);
     res.status(200).send();
-   })
-   .catch(err => {
-       res.status(400).send(err);
-   });   
+    } catch(err) {
+        res.status(400).send();
+    }
 });
 
 
